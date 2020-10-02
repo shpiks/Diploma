@@ -1,0 +1,124 @@
+﻿<Window x:Class="Course.View.EmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Course.View"
+        xmlns:local1="clr-namespace:Course.Validation"
+        mc:Ignorable="d"
+        Title="Информация о сотруднике" Height="250" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode ="NoResize" Icon="/Course;component/Resources/icon.png">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Фамилия" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="Имя" Grid.Row="1" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="Отчество" Grid.Row="2" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="Должность" Grid.Row="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="Звание" Grid.Row="4"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <!--<TextBox Text="{Binding Employee.LastName}" Grid.Column="1" />-->
+        <TextBox Name="TBEmployeeLastName"
+            Validation.ErrorTemplate="{StaticResource errorTemplate}"  Grid.Column="1" 
+                 Height="30">
+            <TextBox.Text>
+                <Binding Path="Employee.LastName" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local1:MinimumCharacterRule MinimumCharacters="2"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <!--<TextBox Text="{Binding  Employee.FirstName}" Grid.Column="1" Grid.Row="1" />-->
+        <TextBox Name="TBEmployeeFirstName"
+            Validation.ErrorTemplate="{StaticResource errorTemplate}"
+                 Grid.Column="1" Grid.Row="1"
+                 Height="30">
+            <TextBox.Text>
+                <Binding Path="Employee.FirstName"
+                         ValidatesOnDataErrors="True"
+                         UpdateSourceTrigger="PropertyChanged"
+                         Mode="TwoWay">
+                    <Binding.ValidationRules>
+                        <local1:MinimumCharacterRule MinimumCharacters="2"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <!--<TextBox Text="{Binding  Employee.Patronymic}" Grid.Column="1" Grid.Row="2" />-->
+        <TextBox Name="TBEmployeePatronymic"
+            Validation.ErrorTemplate="{StaticResource errorTemplate}"
+                 Grid.Column="1" Grid.Row="2"
+                 Height="30">
+            <TextBox.Text>
+                <Binding Path="Employee.Patronymic" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local1:MinimumCharacterRule MinimumCharacters="2"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <!--<TextBox Text="{Binding Employee.Position}" Grid.Column="1" Grid.Row="3" />-->
+
+        <ComboBox Name="CBPosition"
+            ItemsSource="{Binding PositionList, Mode=TwoWay}"
+            SelectedItem="{Binding  Employee.Position}"
+                  Grid.Column="1" Grid.Row="3"
+                  SelectedIndex="0"/>
+
+        <!--<TextBox Text="{Binding  Employee.Rank}" Grid.Column="1" Grid.Row="4" />-->
+
+        <ComboBox Name="CBRank"
+            ItemsSource="{Binding RankList}"
+            SelectedItem="{Binding  Employee.Rank}"
+                  Grid.Column="1" Grid.Row="4"
+                  SelectedIndex="1"/>
+
+        <StackPanel HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Grid.Row="5" Grid.Column="1">
+            <Button IsDefault="True"  MinWidth="60"
+                    Margin="5"
+                    Command="{Binding AcceptCommand}" >
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource InverseAndBooleansToBooleanConverter}" Mode="TwoWay">
+                        <Binding ElementName="TBEmployeeLastName" Path="(Validation.HasError)"  />
+                        <Binding ElementName="TBEmployeePatronymic" Path="(Validation.HasError)" />
+                        <Binding ElementName="TBEmployeeFirstName" Path="(Validation.HasError)" />
+                    </MultiBinding>
+
+                </Button.IsEnabled>
+                OK</Button>
+            <Button IsCancel="True" MinWidth="60"
+                    Margin="5"
+                    Command="{Binding ExitCommand}">Отмена</Button>
+        </StackPanel>
+
+    </Grid>
+</Window>

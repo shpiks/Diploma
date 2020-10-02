@@ -1,0 +1,214 @@
+﻿<Window x:Class="Course.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Course.View"
+        mc:Ignorable="d"
+        Title="Материалы v.1.0" Height="720" Width="700" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize" Icon="/Course;component/Resources/icon.png"
+        >
+
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+
+    <Grid Name="mainGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource ="/Course;component/Resources/Background.jpg"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="24" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu
+            Grid.Row="0"
+            Background="#FF4b5354"
+            Foreground = "FloralWhite"
+            >
+            <MenuItem Header="Удаление"  >
+                <MenuItem  Command="{Binding DeleteMaterialCommand}"
+                    CommandParameter="{Binding SelectedMaterial}" Header="Удалить материал из БД" />
+                <MenuItem  Command="{Binding DeleteEmployeeCommand}"
+                    CommandParameter="{Binding SelectedEmployee}" Header="Удалить сотрудника из БД" />
+            </MenuItem>
+            <MenuItem Header="Функции">
+                <MenuItem  Command="{Binding LookAllMaterialCommand}"
+                     Header="Поиск материалов"/>
+                <MenuItem  Command="{Binding LookTermOnTodayCommand}"
+                     Header="Посмотреть сроки на сегодня"/>
+            </MenuItem>
+            
+            <MenuItem Command="{Binding GetInfoAboutApp}" Header="Справка" />
+        </Menu>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" >
+            <Label Content="СОТРУДНИКИ ПОДРАЗДЕЛЕНИЯ:"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource ForLabel}"/>
+            <ScrollViewer>
+            <ListBox Name="LBEmloyees"  Height="300" Width="200"
+                     ItemsSource="{Binding Employees}"
+                     SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                     Opacity="0.9"
+                     Margin="5">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Stretch">
+                                <Run Text="{Binding LastName}" />
+                                <Run Text="{Binding FirstName}" />
+                           
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+            <Button Content="Добавить" Margin="5" Width="150"
+                    Command="{Binding AddEmployeeCommand}"
+                    />
+            <Button Content="Изменить" Margin="5" Width="150"
+                    Command="{Binding EditEmployeeCommand}"
+                    CommandParameter="{Binding SelectedEmployee}"/>
+ 
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" >
+            <Label Content="МАТЕРИАЛЫ:"
+                   Style="{StaticResource ForLabel}"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   HorizontalAlignment="Center"/>
+            <ScrollViewer>
+                <ListBox Name="LBMaterials"  Height="300" Width="200"
+                     ItemsSource="{Binding Materials}"
+                     SelectedItem="{Binding SelectedMaterial}"
+                     Opacity="0.9"
+                     Margin="5">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Stretch">
+                                <Run Text="{Binding NumberEK, Converter={StaticResource ConverterEK} }" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+            <Button Content="Добавить материал" Margin="5" Width="170"
+                    Command="{Binding AddMaterialCommand}"/>
+            <Button Content="Изменить материал" Margin="5" Width="170"
+                    Command="{Binding EditMaterialCommand}"
+                    CommandParameter="{Binding SelectedMaterial}"/>
+            <!--<Button Content="Удалить материал" Margin="5" Width="170"
+                    Command="{Binding DeleteMaterialCommand}"
+                    CommandParameter="{Binding SelectedMaterial}"/>-->
+            <Button Content="Добавить заявителя" Width="170"
+                    Margin="5"
+                    Command="{Binding AddVictimCommand}"
+                    CommandParameter="{Binding SelectedMaterial}"/>
+            <Button Content="Переназначить исполнителя" Width="170"
+                    Margin="5"
+                    Command="{Binding RewriteMaterialCommand}"
+                    CommandParameter="{Binding SelectedMaterial}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="1"
+                    DataContext="{Binding SelectedItem,
+            ElementName=LBMaterials}"
+                    >
+            <Label Content="ИНФОРМАЦИЯ О МАТЕРИАЛЕ:"
+                   FontWeight="Bold"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   Style="{StaticResource ForLabel}"
+                   />
+            <StackPanel
+                Background="{StaticResource ControlLightBackground}"
+                    Opacity="0.9">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Единая книга №:  "
+                       Style="{StaticResource ForLabel}"
+                       />
+                    <TextBlock x:Name="TBNumberEK"
+                           Text="{Binding NumberEK}"
+                           Style="{StaticResource ForLabel}"
+                           VerticalAlignment="Center"
+                           Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Дата регистрации:"
+                       Style="{StaticResource ForLabel}"/>
+                    <TextBlock x:Name="TBDateOfRegistration"
+                           Text="{Binding DateOfRegistration, ConverterCulture=en-GB, StringFormat=d}"
+                           Style="{StaticResource ForLabel}"
+                           VerticalAlignment="Center"
+                           Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Срок по материалу:"
+                       Style="{StaticResource ForLabel}"/>
+                    <TextBlock x:Name="TBDateOfTerm"
+                           Text="{Binding DateOfTerm, ConverterCulture=en-GB, StringFormat=d}"
+                           Style="{StaticResource ForLabel}"
+                           VerticalAlignment="Center"
+                           Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Фабула:"
+                       Style="{StaticResource ForLabel}"/>
+                    <TextBlock x:Name="TBStory"
+                           Height="200"
+                           Text="{Binding Story}"
+                           Style="{StaticResource ForLabel}"
+                           VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                           Margin="5"
+                           TextWrapping ="Wrap"
+                           
+                           />
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Перспектива:"
+                       Style="{StaticResource ForLabel}"/>
+                    <TextBlock x:Name="TBPerspective"
+                           Height="40"
+                           Text="{Binding Perspective}"
+                           Style="{StaticResource ForLabel}"
+                           VerticalAlignment="Center"
+                           Margin="5"
+                           TextWrapping ="Wrap"/>
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Продленный:"
+                       Style="{StaticResource ForLabel}"/>
+                    <TextBlock x:Name="TBExtension"
+                           Text="{Binding Extension, Converter={StaticResource ConverterExtension}}"
+                           Style="{StaticResource ForLabel}"
+                           VerticalAlignment="Center"
+                           Margin="5"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Заявители:"
+                       Style="{StaticResource ForLabel}"/>
+                    <ListBox x:Name="LBVictim"
+                           Height="100"
+                          ItemsSource="{Binding Victims, Mode=TwoWay}"
+                         DisplayMemberPath ="LastName"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <Button Content="Просмотреть" Margin="41,590,40,47"
+                Width="150" 
+                    Command="{Binding LookVictimCommand}"
+                    CommandParameter="{Binding ElementName=LBVictim,
+            Path = SelectedItem}"
+                IsEnabled="{Binding ElementName=LBVictim, Path=SelectedItems.Count}"
+                Grid.Column="2" Grid.Row="1"/>
+    </Grid>
+</Window>

@@ -1,0 +1,63 @@
+﻿<Window x:Class="Course.View.NotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Course.View"
+        mc:Ignorable="d"
+        Title="Напоминание" Height="350" Width="370"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode ="NoResize" Icon="/Course;component/Resources/icon.png">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <ListView Name="LBNotifications" ItemsSource ="{Binding Materials}"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding=
+                                    "{Binding NumberEK}"
+                                    Width="70"
+                                    > № ЕК
+                    </GridViewColumn>
+                    
+                    
+                    <GridViewColumn Header="Сотрудник" Width="100">
+                    <GridViewColumn.CellTemplate>
+                        <ItemContainerTemplate>
+                                <ListBox 
+                                         ItemsSource="{Binding Path= Employees}"
+                                         DisplayMemberPath ="LastName"
+                                         >
+                                </ListBox>
+                            </ItemContainerTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Заявитель" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <ItemContainerTemplate>
+                                <ListBox 
+                                         ItemsSource="{Binding Path= Victims}"
+                                         DisplayMemberPath ="LastName"
+                                         >
+                                </ListBox>
+                            </ItemContainerTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+             
+                    <GridViewColumn DisplayMemberBinding=
+                                    "{Binding Path=DateOfTerm,
+                        StringFormat=d,
+                        ConverterCulture=en-GB}"
+                                    Width="80">Срок</GridViewColumn>
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+        
+    </Grid>
+</Window>

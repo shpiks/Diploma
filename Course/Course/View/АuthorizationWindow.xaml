@@ -1,0 +1,68 @@
+﻿<Window x:Class="Course.View.АuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Course.View"
+        xmlns:local1="clr-namespace:Course.Validation"
+        xmlns:local2="clr-namespace:Course.DependencyPropertyHelper"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="250" Width="350" WindowStartupLocation="CenterScreen"
+        Icon="/Course;component/Resources/icon.png" ResizeMode ="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource ="/Course;component/Resources/preview.jpeg"/>
+            
+        </Grid.Background>
+        <StackPanel>
+            <Label Content="АВТОРИЗАЦИЯ:"
+                   FontWeight="Bold"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   Style="{StaticResource ForLabel}"
+                   Margin="18"
+                   />
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Width="70" Content="ЛОГИН:  "
+                       Style="{StaticResource ForLabel}"
+                       />
+                <TextBox Name="TBLogin"
+            Validation.ErrorTemplate="{StaticResource errorTemplate}"  Grid.Column="1" 
+                 Height="30" Width="250">
+                    <TextBox.Text>
+                        <Binding Path="User.Name" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local1:ValidationForAuthorization MinimumCharacters="2"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Width="70" Content="ПАРОЛЬ:  "
+                       Style="{StaticResource ForLabel}"
+                       />
+                <PasswordBox Name="PBPassword"
+                       local2:PasswordHelper.Attach="True"
+                             local2:PasswordHelper.Password="{Binding Path=User.Password, Mode=TwoWay}"
+                 Height="30" Width="250">
+                </PasswordBox>
+            </StackPanel>
+            <Button Content="ВХОД" Margin="10" Width="150"
+                    Command="{Binding SingInCommand}"
+                    CommandParameter="{Binding User}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource InverseAndBooleansToBooleanConverter}" Mode="TwoWay">
+                        <Binding ElementName="TBLogin" Path="(Validation.HasError)"  />
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
+        </StackPanel>
+        
+
+    </Grid>
+</Window>

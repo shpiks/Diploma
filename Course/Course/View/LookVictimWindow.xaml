@@ -1,0 +1,107 @@
+﻿<Window x:Class="Course.View.LookVictimWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Course.View"
+        mc:Ignorable="d"
+        Title="Информация о потерпевшем" Height="420" Width="350"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode ="NoResize" Icon="/Course;component/Resources/icon.png">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition  />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Фамилия" Grid.Row="0"
+                   HorizontalAlignment="Center" 
+               VerticalAlignment="Center"/>
+        <Label Content="Имя" Grid.Row="1"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="Отчество" Grid.Row="2"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="№ телефона" Grid.Row="3"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="Город" Grid.Row="4"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="Улица" Grid.Row="5"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="Дом" Grid.Row="6"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="Корпус" Grid.Row="7"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+
+        <Label Content="Квартира" Grid.Row="8"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Label Content="Дата рождения" Grid.Row="9"
+                   HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+
+        <TextBlock Text="{Binding Victim.LastName}"
+                 Grid.Column="1" Grid.Row="0" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.FirstName}"
+                 Grid.Column="1" Grid.Row="1" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.Patronymic}"
+                 Grid.Column="1" Grid.Row="2" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.PhoneNumber}"
+                 Grid.Column="1" Grid.Row="3" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.City}"
+                 Grid.Column="1" Grid.Row="4" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.Street}"
+                 Grid.Column="1" Grid.Row="5" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.Home}"
+                 Grid.Column="1" Grid.Row="6" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.Corps}"
+                 Grid.Column="1" Grid.Row="7" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.Flat}"
+                 Grid.Column="1" Grid.Row="8" 
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding  Victim.DateOfBirth,
+                    StringFormat=d,
+                    ConverterCulture=en-GB}"
+                 Grid.Column="1" Grid.Row="9"
+                   VerticalAlignment="Center"/>
+
+
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="10" Grid.Column="1">
+            
+            <Button IsCancel="True" MinWidth="60" Margin="5">OK</Button>
+        </StackPanel>
+    </Grid>
+</Window>
