@@ -112,7 +112,6 @@
                         <Binding ElementName="TBEmployeePatronymic" Path="(Validation.HasError)" />
                         <Binding ElementName="TBEmployeeFirstName" Path="(Validation.HasError)" />
                     </MultiBinding>
-
                 </Button.IsEnabled>
                 OK</Button>
             <Button IsCancel="True" MinWidth="60"

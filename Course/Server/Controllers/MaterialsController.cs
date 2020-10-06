@@ -126,6 +126,9 @@ namespace Server.Controllers
                 var victimMaterials = _context.VictimMaterials.Where(x => x.MaterialMaterial == materials).ToList();
                 _context.VictimMaterials.RemoveRange(victimMaterials);
 
+                var document = _context.Documents.Where(x => x.MaterialsMaterialId == id);
+                _context.Documents.RemoveRange(document);
+
                 _context.Materials.Remove(materials);
                 await _context.SaveChangesAsync();
 

@@ -1,0 +1,116 @@
+﻿<Window x:Class="Course.View.DocumentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:Course.View"
+        xmlns:local1="clr-namespace:Course.Validation"
+        mc:Ignorable="d"
+        Title="Документы" Height="380" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode ="NoResize" Icon="/Course;component/Resources/icon.png">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource ="/Course;component/Resources/Background.jpg"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="ДОКУМЕНТЫ:"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource ForLabel}"/>
+            <ScrollViewer>
+            <ListBox Name="LBDocument"  Height="300" Width="200"
+                     ItemsSource="{Binding Documents}"
+                     SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
+                     Opacity="0.9"
+                     Margin="5" DisplayMemberPath ="Title">
+                 
+                </ListBox>
+        </ScrollViewer>
+            </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Label Content="ДОБАВИТЬ ДОКУМЕНТ:"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource ForLabel}"/>
+
+            <StackPanel Margin="5" >
+                <xctk:WatermarkTextBox x:Name="WTBTitle" >
+                    <TextBox.Text>
+                        <Binding Path="NewDocument.Title" ValidatesOnDataErrors="True" Mode="TwoWay"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local1:MinimumCharacterRule MinimumCharacters="2"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                    <xctk:WatermarkTextBox.Watermark>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Введите название документа" Margin="4,0,0,0"
+                                       Foreground ="AntiqueWhite" Opacity="0.5" />
+                        </StackPanel>
+                    </xctk:WatermarkTextBox.Watermark>
+                </xctk:WatermarkTextBox>
+            </StackPanel>
+            <StackPanel Margin="5" Orientation="Horizontal" >
+                <xctk:WatermarkTextBox Width="145" Text="{Binding Path = NewDocument.FileName, Mode=TwoWay, NotifyOnSourceUpdated=True}">
+                    <xctk:WatermarkTextBox.Watermark>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Путь" Margin="4,0,0,0" Opacity="0.5"
+                                       Foreground ="AntiqueWhite" />
+                        </StackPanel>
+                    </xctk:WatermarkTextBox.Watermark>
+                </xctk:WatermarkTextBox>
+                <!--<xctk:WatermarkTextBox Width="145" >
+                    <WatermarkTextBox.Text>
+                        <Binding Path="NewDocument.FileName" Mode="TwoWay" ValidatesOnDataErrors="True"
+                                 UpdateSourceTrigger="PropertyChanged">
+                        </Binding>
+                    </WatermarkTextBox.Text>
+                    <xctk:WatermarkTextBox.Watermark>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Путь" Margin="4,0,0,0" Opacity="0.5"
+                                       Foreground ="AntiqueWhite" />
+                        </StackPanel>
+                    </xctk:WatermarkTextBox.Watermark>
+                </xctk:WatermarkTextBox>-->
+                <Button Content="Обзор" Width="58"
+                    Margin="5"
+                    Command="{Binding OverviewDocumentCommand}"/>
+            </StackPanel>
+            <Button Content="Добавить документ" Width="170"
+                    Margin="5"
+                    Command="{Binding AddDocumentCommand}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource InverseAndBooleansToBooleanConverter}" Mode="TwoWay">
+                        <Binding ElementName="WTBTitle" Path="(Validation.HasError)"/>
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
+            <StackPanel Margin="10">
+                <Label Content="РАБОТА С ДОКУМЕНТАМИ:"
+                   FontFamily="Technical Italic, Comic Sans MS, Arial"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource ForLabel}"/>
+                <Button Content="Сохранить документ" Width="170"
+                    Margin="5"
+                    Command="{Binding SaveDocumentCommand}"
+                    CommandParameter="{Binding SelectedDocument}"/>
+            <Button Content="Удалить документ" Width="170"
+                    Margin="5"
+                    Command="{Binding DeleteDocumentCommand}"
+                    CommandParameter="{Binding SelectedDocument}"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

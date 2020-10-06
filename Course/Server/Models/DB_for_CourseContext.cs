@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Server.Models;
 
 namespace Server.Models
 {
@@ -22,6 +23,8 @@ namespace Server.Models
         public virtual DbSet<VictimMaterials> VictimMaterials { get; set; }
         public virtual DbSet<Victims> Victims { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Documents> Documents { get; set; }
+        
 
         //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //        {
@@ -144,9 +147,36 @@ namespace Server.Models
 
             });
 
+            modelBuilder.Entity<Documents>(entity =>
+            {
+                entity.HasKey(e => e.DocumentId);
+
+                entity.HasIndex(e => e.DocumentId)
+                    .IsUnique();
+
+                //entity.Property(e => e.VictimId).ValueGeneratedNever();
+                entity.Property(e => e.DocumentId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.FileName).IsRequired();
+
+                entity.Property(e => e.Title).IsRequired();
+
+                entity.Property(e => e.DocumentData).IsRequired();
+
+                entity.Property(e => e.MaterialsMaterialId).IsRequired();
+
+                //entity.HasOne(d => d.Materials)
+                //.WithMany(p => p.Documents)
+                //.HasForeignKey(d => d.MaterialId)
+                //.OnDelete(DeleteBehavior.ClientSetNull);
+
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        
     }
 }

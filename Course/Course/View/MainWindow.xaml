@@ -114,6 +114,11 @@
                     Margin="5"
                     Command="{Binding RewriteMaterialCommand}"
                     CommandParameter="{Binding SelectedMaterial}"/>
+            <Button Content="Документы" Width="170"
+                    Margin="5"
+                    Command="{Binding DocumentCommand}"
+                    CommandParameter="{Binding SelectedMaterial}"/>
+
         </StackPanel>
 
         <StackPanel Grid.Column="2" Grid.Row="1"

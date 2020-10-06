@@ -40,6 +40,7 @@ namespace Course.ViewModel
         RelayCommand rewriteMaterialCommand;
         RelayCommand getInfoAboutApp;
         RelayCommand lookTermOnTodayCommand;
+        RelayCommand documentCommand;
 
         private ObservableCollection<Material> materials;
         private ObservableCollection<Employee> employees;
@@ -412,13 +413,37 @@ namespace Course.ViewModel
 
                       try
                       {
-                          //db.Employees.FirstOrDefault(x => x.EmployeeId == selectedEmployee.EmployeeId).Materials.Where(x => x.ExecutedOrNotExecuted != true).ToList().ForEach(x => materials.Add(x));
                           GetEmployeeMaterialsAsync(selectedEmployee.EmployeeId);
                       }
                       catch (Exception ex)
                       {
                           logger.Error(ex, "Ошибка загрузки БД после того как материал был переписан на другого сотрудника");
                       }
+
+                  }, (o => SelectedMaterial != null)
+                  ));
+            }
+        }
+
+        public RelayCommand DocumentCommand
+        {
+            get
+            {
+                return documentCommand ??
+                  (documentCommand = new RelayCommand((o) =>
+                  {
+                      DocumentWindow documentWindow  = new DocumentWindow(SelectedMaterial, client);
+                      documentWindow.ShowDialog();
+                      
+
+                      //try
+                      //{
+                      //    GetEmployeeMaterialsAsync(selectedEmployee.EmployeeId);
+                      //}
+                      //catch (Exception ex)
+                      //{
+                      //    logger.Error(ex, "Ошибка загрузки БД после того как материал был переписан на другого сотрудника");
+                      //}
 
                   }, (o => SelectedMaterial != null)
                   ));

@@ -9,6 +9,7 @@ namespace Server.Models
         {
             MaterialEmployees = new HashSet<MaterialEmployees>();
             VictimMaterials = new HashSet<VictimMaterials>();
+            Documents = new HashSet<Documents>();
         }
 
         public int MaterialId { get; set; }
@@ -23,6 +24,7 @@ namespace Server.Models
 
         public virtual ICollection<MaterialEmployees> MaterialEmployees { get; set; }
         public virtual ICollection<VictimMaterials> VictimMaterials { get; set; }
+        public virtual ICollection<Documents> Documents { get; set; }
 
         //public virtual ICollection<Victims> Victims { get; set; }
     }

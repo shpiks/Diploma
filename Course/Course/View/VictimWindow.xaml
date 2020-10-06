@@ -161,16 +161,34 @@
                  Grid.Column="1" Grid.Row="7" />
         <TextBox Text="{Binding  Victim.Flat}"
                  Grid.Column="1" Grid.Row="8" />
-        <DatePicker Name="DPVictimDateOfBirth"
+        <!--<DatePicker Name="DPVictimDateOfBirth"
             SelectedDate="{Binding  Victim.DateOfBirth}"
                  Grid.Column="1" Grid.Row="9" 
                     VerticalAlignment="Center" 
-                     DisplayDateStart ="1/01/09" />
-        
+                     DisplayDateStart ="1/01/09" />-->
+        <DatePicker Name="DPVictimDateOfBirth" 
+                     Grid.Column="1" Grid.Row="9"
+                     IsTodayHighlighted ="True"
+                     VerticalAlignment="Center"
+                    Focusable="False"
+                    >
+            <DatePicker.SelectedDate>
+                <Binding Path="Victim.DateOfBirth"
+                         ValidatesOnDataErrors="True"
+                         UpdateSourceTrigger="PropertyChanged"
+                         Mode="TwoWay"
+                         >
+                    <Binding.ValidationRules>
+                        <local1:RegistrationDPRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+            </DatePicker>
 
 
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="10" Grid.Column="1">
+
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="10" Grid.Column="1">
             <Button IsDefault="True"  MinWidth="60" Margin="5" Command="{Binding AcceptCommand}"
                     >
                 <Button.IsEnabled>
@@ -181,7 +199,7 @@
                         <Binding ElementName="TBVictimCity" Path="(Validation.HasError)" />
                         <Binding ElementName="TBVictimHome" Path="(Validation.HasError)" />
                         <Binding ElementName="DPVictimDateOfBirth" Path="(Validation.HasError)" />
-                        
+
                     </MultiBinding>
                 </Button.IsEnabled>
                 OK</Button>

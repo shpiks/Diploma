@@ -114,11 +114,11 @@ namespace Course.Model
         } // перспектива
 
 
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        
         //public virtual ICollection<Employee> Employees { get; set; }
         public virtual ObservableCollection<Employee> Employees { get; set; }
 
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Document> Documents { get; set; }
 
         public virtual ObservableCollection<Victim> Victims { get; set; }
 
